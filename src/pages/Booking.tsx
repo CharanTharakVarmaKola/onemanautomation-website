@@ -3,6 +3,7 @@ import Cal, { getCalApi } from "@calcom/embed-react";
 import { Loader2 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import VerticalScrollGlider from "@/components/VerticalScrollGlider";
+import SEO from "@/components/SEO";
 
 export default function Booking() {
     useEffect(() => {
@@ -19,6 +20,12 @@ export default function Booking() {
 
     return (
         <div className="min-h-screen bg-black pt-24 px-4 overflow-hidden">
+            <SEO
+                title="Book Your Free AI Audit | One Man Automation"
+                description="Schedule a 1-on-1 consultation to identify automation opportunities in your business. No fluff, just actionable system architecture."
+                keywords="AI Consultation, Automation Audit, Hire AI Agency, Business Efficiency Consultant"
+                canonicalUrl="https://onemanautomation.in/booking"
+            />
             <Navigation />
             <VerticalScrollGlider />
 
