@@ -40,7 +40,12 @@ export default function ChatWidget() {
             setMessages(prev => [...prev, { text: aiText, isUser: false }]);
         } catch (error) {
             console.error("Chat error:", error);
-            setMessages(prev => [...prev, { text: "Sorry, I encountered an error. Please try again.", isUser: false }]);
+            const errorMessage = (error as any)?.message || "";
+            if (errorMessage.includes("auth") || errorMessage.includes("popup")) {
+                setMessages(prev => [...prev, { text: "To chat with our AI, please allow the signed-in session. Or email us at neha@onemanautomation.in", isUser: false }]);
+            } else {
+                setMessages(prev => [...prev, { text: "I'm having trouble connecting. Please email neha@onemanautomation.in", isUser: false }]);
+            }
         }
     };
 

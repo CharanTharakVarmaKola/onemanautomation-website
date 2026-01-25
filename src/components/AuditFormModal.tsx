@@ -181,7 +181,7 @@ const AuditFormModal = ({ isOpen, onClose, triggerSource }: AuditFormModalProps)
                                             disabled={isSubmitting}
                                             className="w-full md:w-auto px-8 py-3.5 rounded-full bg-primary/20 hover:bg-primary/30 text-white font-medium border border-primary/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                                         >
-                                            {isSubmitting ? "AI is analyzing your workflow..." : "Generate Free Analysis"}
+                                            {isSubmitting ? "Submitting request..." : "Generate Free Analysis"}
                                             {!isSubmitting && <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                                         </button>
                                     </form>
