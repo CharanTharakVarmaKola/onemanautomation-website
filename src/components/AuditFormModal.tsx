@@ -3,6 +3,8 @@ import { X, Send, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { GlassButton } from "./GlassButton";
 
+declare const puter: any;
+
 interface AuditFormModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -23,33 +25,47 @@ const AuditFormModal = ({ isOpen, onClose, triggerSource }: AuditFormModalProps)
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Mock submission to Google Sheets / Webhook
-        // Replace this URL with your actual Google Sheets webhook (e.g., n8n, Zapier)
-        const webhookUrl = "https://hook.eu1.n8n.cloud/webhook/placeholder";
-
         try {
-            console.log("Submitting form data:", { ...formData, source: triggerSource });
-            // Simulate network request
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Step A: AI Generation (Silent)
+            const prompt = `You are an automation expert. Analyze this workflow for inefficiencies and suggest 3 automations: ${formData.description}`;
 
-            // In production, uncomment this:
-            /*
-            await fetch(webhookUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ ...formData, source: triggerSource }),
+            // Wait for AI response
+            const aiResponse = await puter.ai.chat(prompt, { model: 'claude-3-5-sonnet' });
+
+            // Step B: Data Sync
+            const payload = {
+                name: formData.name,
+                email: formData.email,
+                company: formData.company,
+                description: formData.description,
+                analysis: aiResponse.message.content[0].text
+            };
+
+            // Send to Google Apps Script
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbxH20iYw2grUp39LZUUhLOaQPqwV0SRsqQFeFEG4-_zqsspHqzRGiA8do-u8zeMj7GE9g/exec";
+
+            await fetch(scriptUrl, {
+                method: "POST",
+                mode: "no-cors", // Google Apps Script often requires no-cors for simple submission
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload)
             });
-            */
 
+            // Step C: Unlock
             setIsSuccess(true);
+
+            // Trigger exit animation and reveal website
             setTimeout(() => {
                 setIsSuccess(false);
                 onClose();
                 setFormData({ name: "", email: "", company: "", description: "" });
-            }, 2000); // Wait a bit before closing to show success state if desired
+            }, 1000);
 
         } catch (error) {
             console.error("Submission error:", error);
+            // Optional: Handle error state visually
         } finally {
             setIsSubmitting(false);
         }
@@ -158,7 +174,7 @@ const AuditFormModal = ({ isOpen, onClose, triggerSource }: AuditFormModalProps)
                                             disabled={isSubmitting}
                                             className="w-full md:w-auto px-8 py-3.5 rounded-full bg-primary/20 hover:bg-primary/30 text-white font-medium border border-primary/30 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                                         >
-                                            {isSubmitting ? "Analyzing..." : "Generate Free Analysis"}
+                                            {isSubmitting ? "AI is analyzing your workflow..." : "Generate Free Analysis"}
                                             {!isSubmitting && <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                                         </button>
                                     </form>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
-import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import VerticalScrollGlider from "@/components/VerticalScrollGlider";
 import SEO from "@/components/SEO";
@@ -26,10 +27,18 @@ export default function Booking() {
                 keywords="AI Consultation, Automation Audit, Hire AI Agency, Business Efficiency Consultant"
                 canonicalUrl="https://onemanautomation.in/booking"
             />
-            <Navigation />
+            <Navigation hideAuditButton={true} />
             <VerticalScrollGlider />
 
             <div className="container-oma relative z-10 animate-fade-up">
+                <Link
+                    to="/"
+                    className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-8 group"
+                >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                    Back
+                </Link>
+
                 <h1 className="text-4xl md:text-5xl font-serif text-white mb-4 text-center">
                     Schedule Your Audit
                 </h1>
@@ -38,16 +47,8 @@ export default function Booking() {
                 </p>
 
                 <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden h-[700px] shadow-2xl relative">
-                    {/* Loading Indicator */}
-                    <div className="absolute inset-0 flex items-center justify-center z-0">
-                        <div className="flex flex-col items-center">
-                            <Loader2 className="w-10 h-10 text-primary animate-spin mb-3" />
-                            <p className="text-sm text-foreground/50 font-medium">Loading Calendar...</p>
-                        </div>
-                    </div>
-
                     {/* Cal Embed */}
-                    <div className="relative z-10 h-full bg-background/0"> {/* Initially transparent to show loader if needed, but Cal iframe is opaque */}
+                    <div className="relative z-10 h-full bg-background/0">
                         <Cal
                             key="cal-embed"
                             namespace="voice-agent-strategy-call"

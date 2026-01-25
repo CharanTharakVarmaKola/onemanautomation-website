@@ -2,6 +2,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send } from "lucide-react";
 
+declare const puter: any;
+
+const KNOWLEDGE = "We are OMA (One Man Automation). We build AI agents, voice bots (Retell AI), and n8n workflows. Contact: neha@onemanautomation.in. Founder: Charan Tharak Varma.";
+
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([
@@ -9,15 +13,29 @@ export default function ChatWidget() {
     ]);
     const [inputText, setInputText] = useState("");
 
-    const handleSend = () => {
+    const handleSend = async () => {
         if (!inputText.trim()) return;
-        setMessages([...messages, { text: inputText, isUser: true }]);
+
+        const userMsg = { text: inputText, isUser: true };
+        setMessages(prev => [...prev, userMsg]);
         setInputText("");
 
-        // Mock response delay
-        setTimeout(() => {
-            setMessages(prev => [...prev, { text: "Thanks for reaching out. An automation expert will be with you shortly.", isUser: false }]);
-        }, 1000);
+        try {
+            // Combine knowledge base with user question
+            const prompt = `${KNOWLEDGE} User asked: ${inputText}`;
+
+            const response = await puter.ai.chat(prompt, {
+                model: 'claude-3-5-sonnet',
+                system: "You are Robin's AI assistant for OMA. You help users understand automation."
+            });
+
+            const aiText = response?.message?.content?.[0]?.text || "I apologize, but I'm having trouble connecting right now.";
+
+            setMessages(prev => [...prev, { text: aiText, isUser: false }]);
+        } catch (error) {
+            console.error("Chat error:", error);
+            setMessages(prev => [...prev, { text: "Sorry, I encountered an error. Please try again.", isUser: false }]);
+        }
     };
 
     return (
@@ -47,8 +65,8 @@ export default function ChatWidget() {
                                 {messages.map((msg, i) => (
                                     <div key={i} className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}>
                                         <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${msg.isUser
-                                                ? "bg-oma-blue text-white rounded-tr-none"
-                                                : "bg-white/10 text-white rounded-tl-none"
+                                            ? "bg-oma-blue text-white rounded-tr-none"
+                                            : "bg-white/10 text-white rounded-tl-none"
                                             }`}>
                                             {msg.text}
                                         </div>

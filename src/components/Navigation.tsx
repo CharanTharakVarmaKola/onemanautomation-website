@@ -3,7 +3,11 @@ import { motion } from "framer-motion";
 import omaLogo from "@/assets/oma-logo.png";
 import { GlassButton } from "@/components/GlassButton";
 
-const Navigation = () => {
+interface NavigationProps {
+  hideAuditButton?: boolean;
+}
+
+const Navigation = ({ hideAuditButton = false }: NavigationProps) => {
   const navigate = useNavigate();
 
   return (
@@ -28,9 +32,11 @@ const Navigation = () => {
         </div>
 
         {/* CTA */}
-        <GlassButton to="/booking">
-          Book Audit
-        </GlassButton>
+        {!hideAuditButton && (
+          <GlassButton to="/booking">
+            Book Audit
+          </GlassButton>
+        )}
       </div>
     </motion.nav>
   );
