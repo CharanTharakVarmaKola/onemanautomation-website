@@ -26,6 +26,13 @@ const AuditFormModal = ({ isOpen, onClose, triggerSource }: AuditFormModalProps)
         setIsSubmitting(true);
 
         try {
+            if (typeof puter === 'undefined') {
+                throw new Error("Puter.js not loaded");
+            }
+
+            // Ensure auth with temporary user creation
+            await puter.auth.signIn({ attempt_temp_user_creation: true });
+
             // Step A: AI Generation (Silent)
             const prompt = `You are an automation expert. Analyze this workflow for inefficiencies and suggest 3 automations: ${formData.description}`;
 

@@ -21,6 +21,12 @@ export default function ChatWidget() {
         setInputText("");
 
         try {
+            if (typeof puter === 'undefined') {
+                // Fallback or error
+                throw new Error("Puter.js not loaded");
+            }
+            await puter.auth.signIn({ attempt_temp_user_creation: true });
+
             // Combine knowledge base with user question
             const prompt = `${KNOWLEDGE} User asked: ${inputText}`;
 
