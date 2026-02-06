@@ -46,16 +46,18 @@ export default function Booking() {
                     Select a time for us to analyze your workflows and propose a custom AI implementation plan.
                 </p>
 
-                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden h-[700px] shadow-2xl relative">
-                    {/* Cal Embed */}
-                    <div className="relative z-10 h-full bg-background/0">
-                        <Cal
-                            key="cal-embed"
-                            namespace="voice-agent-strategy-call"
-                            calLink="oneman-automation-dkxxo4/voice-agent-strategy-call"
-                            style={{ width: "100%", height: "100%", overflow: "scroll" }}
-                            config={{ layout: "month_view" }}
-                        />
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden min-h-[400px] flex items-center justify-center shadow-2xl relative">
+                    {/* Cal Embed - Temporarily Disabled due to Link Issue */}
+                    <div className="relative z-10 p-8 text-center bg-black/40 w-full h-full flex flex-col items-center justify-center">
+                        <h3 className="text-2xl font-serif text-white mb-4">Scheduling Update</h3>
+                        <p className="text-white/70 max-w-md mx-auto mb-6">
+                            Our automatic booking system is currently undergoing maintenance.
+                            <br /><br />
+                            Please contact us directly to schedule your audit:
+                        </p>
+                        <a href="mailto:neha@onemanautomation.in" className="text-oma-blue hover:text-white text-xl font-medium transition-colors">
+                            neha@onemanautomation.in
+                        </a>
                     </div>
                 </div>
             </div>

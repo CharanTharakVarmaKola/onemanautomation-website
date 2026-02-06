@@ -7,7 +7,7 @@ import Index from "./pages/Index";
 import Booking from "./pages/Booking";
 import NotFound from "./pages/NotFound";
 import VerticalScrollGlider from "@/components/VerticalScrollGlider";
-import ChatWidget from "@/components/ChatWidget";
+
 
 const queryClient = new QueryClient();
 
@@ -21,7 +21,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <VerticalScrollGlider />
-          <ChatWidget />
+
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/booking" element={<Booking />} />
